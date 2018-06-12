@@ -1,3 +1,9 @@
-# Aplicação web - Pró-Mamá
+# Aplicação web Pró-Mamá
 
-Sistema que dá suporte ao aplicativo [Pró-Mamá](https://github.com/agharium/ProMama), desenvolvido por [José de Oliveira Filho](https://github.com/agharium/).
+Sistema de gerência do aplicativo [Pró-Mamá](https://github.com/agharium/ProMama), que foi desenvolvido por [José de Oliveira Filho](https://github.com/agharium/).
+
+Tecnologias utilizadas:
+- Laravel 5.6
+- Bootstrap 4.0.0
+- Javascript
+- HTML
