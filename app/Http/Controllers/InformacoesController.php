@@ -12,7 +12,7 @@ class InformacoesController extends Controller
 {
     //
 	
-    protected $promamaStorageUrl = 'http://promama.cf/storage/';
+    protected $promamaStorageUrl = 'http://localhost/promama/public/storage/';
 
     public function __construct()
     {
@@ -61,21 +61,23 @@ class InformacoesController extends Controller
 
         if ( $informacao->save() ) {
 
-                if ( count($request->chave) >= 1 && !(empty($request->chave[0]) && empty($request->valor[0])) ) {
-                    for ($i = 0; $i < count($request->chave); $i++) {
-        
-                        if ( !empty($request->chave[$i]) && !empty($request->valor[$i]) ) {
-                            $link = new Link([
-                                "informacao" => $informacao->informacao_id, 
-                                "titulo" => $request->chave[$i], 
-                                "url" => $request->valor[$i]
+                if($request->has("chavesToSave")) {
+                    $toSave = array_combine($request->chavesToSave, $request->valoresToSave);
+
+                    foreach ( $toSave as $titulo => $url ) {
+                        
+                        if ($titulo != null && $titulo != "" && $url != null && $url != "") {
+
+                            Link::create([
+                                'informacao' => $informacao->informacao_id,
+                                'titulo' => $titulo,
+                                'url' => $url
                             ]);
 
-                            $link->save();
                         } else {
-                            array_push($errors, "Erro ao salvar Links");
+                            array_push($errors, 'Erro ao salvar alguns Links');
                         }
-                    }
+                    }            
                 }
 
         } else {
@@ -102,21 +104,17 @@ class InformacoesController extends Controller
 
     public function atualizar($id, Request $request)
     {
+        $emBranco = false;
+        $success = false;
+
+
         $this->validate($request,[
             'informacao_titulo' => 'required',
             'informacao_corpo' => 'required',
             'informacao_foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        ]);    
 
         $info = Informacao::findOrFail($id);
-
-        $linksAtuais = array();
-        foreach ($info->links as $link) {
-            $linksAtuais[$link->titulo] = $link->url;
-        }
-    
-
-        $success = false;
 
         if($request->hasFile('informacao_foto')){
 
@@ -150,66 +148,96 @@ class InformacoesController extends Controller
 
 
 
-        $errors = array();
 
-        if ($success) {
+        if($request->has("changed")) {
 
-            
-            if ( count($request->chave) >= 1 && !(empty($request->chave[0]) && empty($request->valor[0]))) {
-                    for ($i = 0; $i < count($request->chave); $i++) {
+            $originalinks = array_combine($request->chavesFromBanco, $request->valoresFromBanco);
+            $IDS = $request->linkId;
+
+            $links = Link::where('informacao', $id)->get();
         
-                        if ( !empty($request->chave[$i]) && !empty($request->valor[$i]) ) {
-                            $link = Link::where('titulo',$request->chave[$i])
-                                        ->first();
-
-                            if ($link !== null) {
-                                $link->update([
-                                    'titulo' => $request->chave[$i],
-                                    'url' => $request->valor[$i]
-                                ]);
-                            }
-                        } else {
-                            array_push($errors, "Erro ao editar Links");
-                        }
-                    }
+            $linksDaInformacao = array();
+            foreach ($links as $link) {
+                $linksDaInformacao[$link->titulo] = $link->url;
             }
-        } else {
-            array_push($errors, 'Erro ao atualizar Informação, Tente Novamente');
-        }
 
-        $linksForm = array_combine($request->chave, $request->valor);
-        $toSave = array_diff($linksForm, $linksAtuais);
-        if ( !(empty($request->chave[0] && $request->valor[0])) ) {
-            if (!empty($toSave) && count($request->chave) > count($linksAtuais)) {
-                foreach($toSave as $key => $value) {
-        
-                        if ( !empty($key) && !empty($value) ) {
-                            $link = new Link([
-                                "informacao" => $info->informacao_id, 
-                                "titulo" => $key, 
-                                "url" => $value
-                            ]);
+            if (! ($originalinks === $linksDaInformacao) ) {
 
-                            $link->save();
-                        } else {
-                            array_push($errors, "Erro ao salvar Links");
-                        }
+                // percorre as linhas de links e vai atualizando Um pOr Um
+                $i = 0;
+                foreach ($originalinks as $titulo => $url) {
+                    $link = Link::findOrFail($IDS[$i++]);
+
+                    if ($titulo != null && $titulo != "" && $url != null && $url != "") {
+                        $link->update([
+                            'titulo' => $titulo,
+                            'url' => $url
+                        ]);
+                    } else {
+                        $emBranco = true;
+                    }
                 }
+
+            }
+
         }
+
+        if($request->has("chavesToSave")) {
+            $toSave = array_combine($request->chavesToSave, $request->valoresToSave);
+
+            foreach ( $toSave as $titulo => $url ) {
+                
+                if ($titulo != null && $titulo != "" && $url != null && $url != "") {
+
+                    Link::create([
+                        'informacao' => $id,
+                        'titulo' => $titulo,
+                        'url' => $url
+                    ]);
+
+                } else {
+                    $emBranco = true;
+                }
+            }            
+        }
+
+        if($request->has("toDelete")) {
+            $toDelete = $request->toDelete;
+
+            foreach ( $toDelete as $idLink ) {
+                
+                $link = Link::findOrFail($idLink);
+                $link->delete();
+                
+            }
         }
 
 
         \Session::flash('mensagem_sucesso', 'Informação atualizada com sucesso!');
-        if ( empty($errors) ){
-            return \Redirect::to('informacoes/'.$info->informacao_id.'/editar');
+        if (! $emBranco ){
+            return \Redirect::to('informacoes/'.$id.'/editar');
         } else {
-            return \Redirect::to('informacoes/'.$info->informacao_id.'/editar')->withErrors($errors);
-        } 
+            return \Redirect::to('informacoes/'.$id.'/editar')->withErrors(["Alguns Links não foram salvos com sucesso por causa de campos em branco."]);
+        }
+
     }
 
     public function deletar($id)
     {
         $info = Informacao::findOrFail($id);
+
+        if ( $info->informacao_foto !== null ) {
+            
+            if (strpos($info->informacao_foto, 'informacoes_fotos') !== false) {
+                    
+                    $posicaoSubstring = strpos($info->informacao_foto, 'informacoes_fotos');
+                    $file = substr( $info->informacao_foto, $posicaoSubstring, strlen($info->informacao_foto) - 1 );
+                    
+                    Storage::disk('public')->delete($file);
+
+            }
+
+        }
 
         $info->delete();
 
