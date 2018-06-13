@@ -16,6 +16,8 @@ Auth::routes();
 Route::get('/','HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
 
+Route::get('/renderizar/{infoId}', 'InformacoesController@renderizarInformacaoSmartphone');
+
 Route::get('/notificar', 'NotificacoesController@index');
 Route::post('/notificar/salvar', 'NotificacoesController@store');
 

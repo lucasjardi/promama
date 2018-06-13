@@ -30,6 +30,12 @@ class InformacoesController extends Controller
         return view('informacoes.formulario', ['idades' => Idade::get()]);
     }
 
+    public function renderizarInformacaoSmartphone($id)
+    {
+        $info = Informacao::findOrFail($id);
+        return view('smartphone.renderInformacao', ['info' => $info]);
+    }
+
     public function salvar(Request $request)
     {   
         $this->validate($request,[

@@ -38,6 +38,7 @@
                                     <td>{{ App\Idade::where('semanas',$info->informacao_idadeSemanasInicio)->pluck('idade')->first() . " até " . App\Idade::where('semanas',$info->informacao_idadeSemanasFim)->pluck('idade')->first() }}</td>
                                     {{--<td>{{ $info->informacao_autor }}</td>--}}
                                     <td>
+                                        <!-- <a href="renderizar/{{ $info->informacao_id }}" class="btn btn-primary btn-sm">Ver</a> -->
                                         <a href="informacoes/{{ $info->informacao_id }}/editar" class="btn btn-primary btn-sm">Editar</a>
                                         {!! Form::open(['method' => 'DELETE', 'url' => 'informacoes/'.$info->informacao_id, 'style' => 'display: inline']) !!}
                                         <button type="submit" class="btn btn-default btn-sm">Remover</button>
