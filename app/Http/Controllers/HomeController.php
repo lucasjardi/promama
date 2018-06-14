@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-       $duvidas = Duvida::with('user')->whereNull('duvida_resposta')->get();
+       $duvidas = Duvida::with('user')->whereNull('resposta')->get();
 
         $qtd= count($duvidas);
 

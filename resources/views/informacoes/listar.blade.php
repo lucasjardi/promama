@@ -26,7 +26,7 @@
                         <table class="table" id="myTable">
                             <thead>
                             <th>Título</th>
-                            <th>Idades</th>
+                            <th>Idade</th>
                             {{--<th>Autor</th>--}}
                             <th>Ações</th>
                             </thead>
@@ -35,7 +35,7 @@
                             @foreach($infos as $info)
                                 <tr>
                                     <td>{{ $info->informacao_titulo }}</td>
-                                    <td>{{ App\Idade::where('semanas',$info->informacao_idadeSemanasInicio)->pluck('idade')->first() . " até " . App\Idade::where('semanas',$info->informacao_idadeSemanasFim)->pluck('idade')->first() }}</td>
+                                    <td>{{ App\Idade::where('semanas',$info->informacao_idadeSemanasInicio)->pluck('idade')->first() }}</td>
                                     {{--<td>{{ $info->informacao_autor }}</td>--}}
                                     <td>
                                         <!-- <a href="renderizar/{{ $info->informacao_id }}" class="btn btn-primary btn-sm">Ver</a> -->

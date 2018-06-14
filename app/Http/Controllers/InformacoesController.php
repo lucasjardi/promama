@@ -42,7 +42,7 @@ class InformacoesController extends Controller
             'informacao_titulo' => 'required',
             'informacao_corpo' => 'required',
             'informacao_foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'informacao_idadeSemanasFim' => 'required'
+            'informacao_idadeSemanasInicio' => 'required'
         ]);
 
 
@@ -55,7 +55,7 @@ class InformacoesController extends Controller
                 'informacao_corpo' => $request->informacao_corpo,
                 'informacao_autor' => $request->informacao_autor,
                 'informacao_idadeSemanasInicio' => $request->informacao_idadeSemanasInicio,
-                'informacao_idadeSemanasFim' => $request->informacao_idadeSemanasFim,
+                // 'informacao_idadeSemanasFim' => $request->informacao_idadeSemanasFim,
                 'informacao_foto' => $this->promamaStorageUrl . $path
             ]);
 
@@ -143,7 +143,7 @@ class InformacoesController extends Controller
                 'informacao_corpo' => $request->informacao_corpo,
                 'informacao_autor' => $request->informacao_autor,
                 'informacao_idadeSemanasInicio' => $request->informacao_idadeSemanasInicio,
-                'informacao_idadeSemanasFim' => $request->informacao_idadeSemanasFim,
+                // 'informacao_idadeSemanasFim' => $request->informacao_idadeSemanasFim,
                 'informacao_foto' => $this->promamaStorageUrl . $path
             ])) {
                 $success = true;

@@ -82,7 +82,13 @@
                     <li class="{{ Request::is('duvidas') || Request::is('duvidas/*') ? 'active' : '' }}">
                         <a href="{{ url('duvidas') }}">
                             <i class="far fa-question-circle"></i>
-                            <p>Dúvidas/Respostas</p>
+                            <p>Fale Conosco</p>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('duvidas') || Request::is('duvidas/*') ? 'active' : '' }}">
+                        <a href="{{ url('duvidas') }}">
+                            <i class="far fa-question-circle"></i>
+                            <p>Dúvidas Frequentes</p>
                         </a>
                     </li>
                 </ul>

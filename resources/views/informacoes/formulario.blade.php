@@ -62,7 +62,7 @@
                             }
                         </script>
 
-                        {!! Form::label('informacao_idadeSemanasInicio','Idade de Início') !!}
+                        {!! Form::label('informacao_idadeSemanasInicio','Idade') !!}
                         <span style="color: red"> * </span>
 
                         <select name="informacao_idadeSemanasInicio" class="form-control">
@@ -74,21 +74,6 @@
                             		 } 
                             	?>
                                 <option value="<?php echo $idade->semanas ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
-                            <?php endforeach ?>
-                        </select>
-
-                        {!! Form::label('informacao_idadeSemanaFim','Idade de Fim') !!}
-                        <span style="color: red"> * </span>
-
-                        <select name="informacao_idadeSemanasFim" class="form-control">
-                            <?php foreach ($idades as $idade): ?>
-                            	<?php
-                            		$selectedFim = null; 
-                            		if (Request::is('*/editar')) {
-                            		 	$selectedFim = ($idade->semanas == $info->informacao_idadeSemanasFim) ? "selected=\"selected\"" : null;
-                            		 } 
-                            	?>
-                                <option value="<?php echo $idade->semanas ?>" <?php echo $selectedFim ?> ><?php echo $idade->idade ?></option>
                             <?php endforeach ?>
                         </select>
 
