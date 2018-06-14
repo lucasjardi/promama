@@ -56,7 +56,6 @@
                             </th>
                             </thead>
                             <tbody>
-
                             @foreach($duvidas as $duvida)
                                 <tr>
                                     <td>{{ $duvida->user->name }}</td>

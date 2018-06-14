@@ -54,6 +54,8 @@ Route::prefix('postos')->group(function (){
     Route::delete('/{posto}','PostosController@deletar');
 });
 
+// duvidas
+
 Route::prefix('duvidas')->group(function (){
     Route::get('', 'DuvidasController@index');
     Route::get('/respondidas', 'DuvidasController@renderizaRespondidas');
@@ -61,4 +63,5 @@ Route::prefix('duvidas')->group(function (){
     Route::get('/{duvida}/editar','DuvidasController@read');
     Route::patch('/{duvida}','DuvidasController@atualizar');
     Route::post('/responderDuvida', 'DuvidasController@responderDuvida');
+    Route::delete('/{duvida}','DuvidasController@deletar');
 });

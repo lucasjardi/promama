@@ -67,4 +67,15 @@ class DuvidasController extends Controller
 
         return view('duvidas.listar', ['duvidas' => $duvidas, 'respondidas' => true]);
     }
+
+    public function deletar($id)
+    {
+        $duvida = Duvida::findOrFail($id);
+
+        $duvida->delete();
+
+        \Session::flash('mensagem_sucesso', 'Dúvida excluída com sucesso!');
+
+        return \Redirect::to('duvidas');
+    }
 }

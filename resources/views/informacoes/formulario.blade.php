@@ -46,7 +46,22 @@
                         <span style="color: red"> * </span>
                         {!! Form::textarea('informacao_corpo', null,['class' => 'form-control', 'rows' => '5','required']) !!}
 
-                        
+                        <script type="text/javascript">
+                            document.getElementById('informacao_titulo').addEventListener('keyup', verifica);
+                            document.getElementById('informacao_corpo').addEventListener('keyup', verifica);
+
+                            function verifica() {
+                                var titulo = document.getElementById('informacao_titulo').value;
+                                var corpo = document.getElementById('informacao_corpo').value;
+
+                                if (titulo != "" && corpo != "") {
+                                    document.getElementById('previewInfo').disabled = false;
+                                } else {
+                                    document.getElementById('previewInfo').disabled = true;
+                                }
+                            }
+                        </script>
+
                         {!! Form::label('informacao_idadeSemanasInicio','Idade de Início') !!}
                         <span style="color: red"> * </span>
 
@@ -61,7 +76,6 @@
                                 <option value="<?php echo $idade->semanas ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
                             <?php endforeach ?>
                         </select>
-
 
                         {!! Form::label('informacao_idadeSemanaFim','Idade de Fim') !!}
                         <span style="color: red"> * </span>
@@ -86,40 +100,6 @@
 
                         <div class="collapse" id="maisOpcoes">
                             <label><b>Adicionar Links</b> <a href="" onclick="return false;" id="adicionarLink"><i class="fas fa-plus-circle"></i></a></label>
-
-                            <!-- <div class="row">
-                                <div class="col-md-5" id="containerChave">
-                                    <label>Título: </label>
-                                    @if(isset($info))
-                                        @forelse( $info->links as $link )
-                                            <input type="text" name="chaveFromBanco[]" class="form-control" placeholder="Post do Facebook" value="{!! $link->titulo !!}">
-                                        @empty
-                                            <input type="text" name="chave[]" class="form-control" placeholder="Post do Facebook">
-                                        @endforelse
-                                    @else
-                                        <input type="text" name="chave[]" class="form-control" placeholder="Post do Facebook">
-                                    @endif
-                                </div>
-
-                                <div class="col-md-5" id="containerValor">
-                                    <label>Link: </label>
-                                    @if(isset($info))
-                                        @forelse( $info->links as $link )
-                                            <input type="text" name="valorFromBanco[]" class="form-control" placeholder="Post do Facebook" value="{!! $link->url !!}">
-                                            <a id="removerLink" class="btn btn-primary" style="color: white;padding: 2px;">-</a>
-                                        @empty
-                                            <input type="text" name="valor[]" class="form-control" placeholder="Post do Facebook">
-                                        @endforelse
-                                    @else
-                                        <input type="text" name="valor[]" class="form-control" placeholder="Post do Facebook">
-                                    @endif
-                                </div>
-                                
-                                <div class="col-md-2">
-                                    <a id="adicionarLink" class="btn btn-primary" style="color: white;padding: 8px;">+</a>
-                                    <a id="removerLink" class="btn btn-primary" style="color: white;padding: 8px;">-</a>
-                                </div>
-                            </div> -->
                             
                             <div id="linhaLink">
                                 @if(isset($info))
@@ -158,11 +138,11 @@
                                     <div class="row" id="firstElement">
                                         <div class="col-md-5" id="containerChave">
                                             <label for="chave">Título: </label>
-                                            <input type="text" name="chavesToSave[]" class="form-control" placeholder="Post do Facebook">
+                                            <input type="text" name="chavesToSave[]" class="form-control links_titulo" placeholder="Post do Facebook">
                                         </div>
                                         <div class="col-md-5" id="containerValor">
                                             <label for="chave">Link: </label>
-                                            <input type="text" name="valoresToSave[]" class="form-control" placeholder="http://facebook.com">
+                                            <input type="text" name="valoresToSave[]" class="form-control links_url" placeholder="http://facebook.com">
                                         </div>
                                         <div class="col-md-2">
                                             <a href="" onclick="document.getElementById('linhaLink').removeChild(document.getElementById('firstElement')); return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
@@ -207,12 +187,12 @@
                                       inputChave.type = "text";
                                       inputChave.name = "chavesToSave[]";
                                       inputChave.placeholder = "Post do Facebook";
-                                      inputChave.className = "form-control";
+                                      inputChave.className = "form-control links_titulo";
 
                                       inputValor.type = "text";
                                       inputValor.name = "valoresToSave[]";
                                       inputValor.placeholder = "http://facebook.com";
-                                      inputValor.className = "form-control";
+                                      inputValor.className = "form-control links_url";
 
                                       row.appendChild(colmd51);
                                       row.appendChild(colmd52);
@@ -268,6 +248,22 @@
 
                             {!! Form::label('informacao_foto','Foto da Informação') !!}
                             {!! Form::file('informacao_foto', ['class' => 'form-control', 'accept' => 'image/*']) !!}
+
+                            <script type="text/javascript">
+                                document.getElementById('informacao_foto').addEventListener('change', function (event) {
+                                  var selectedFile = event.target.files[0];
+                                  var reader = new FileReader();
+
+                                  var imgtag = document.getElementById("info_foto");
+                                  imgtag.title = selectedFile.name;
+
+                                  reader.onload = function(event) {
+                                    imgtag.src = event.target.result;
+                                  };
+
+                                  reader.readAsDataURL(selectedFile);
+                                });
+                            </script>
                         </div>
 
                         @if( Request::is('*/editar'))
@@ -276,10 +272,180 @@
                         @endif
                         {!! "<br>" !!}
                         {!! Form::submit('Salvar', ['class' => 'btn btn-primary']) !!}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn" id="previewInfo" data-toggle="modal" data-target="#exampleModalLong" onclick="cliqueDoBotaoLoro()" style="float: right" disabled>
+                          Pré-visualizar <i class="fas fa-mobile-alt"></i>
+                        </button>
                         {!! Form::close() !!}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style type="text/css">
+        .fundoSmartphone{
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{{ asset('img/fundo.png') }}");
+            width: 570px;
+            height: 1120px;
+            margin: 0 auto;
+        }
+
+        .fundoSmartphone .cabecalho_info{
+            text-align: center;
+            padding-top: 180px;
+            /*margin-top: 100px;*/
+        }
+        .fundoSmartphone .cabecalho_info img{
+            width: 200px;
+            height: 200px;
+        }
+        .fundoSmartphone .cabecalho_info h4{
+            padding-left: 100px;
+            padding-right: 100px;
+            word-break: break-all;
+            font-weight: 700;
+        }
+
+
+
+        .fundoSmartphone .texto_info{
+            padding-top: 30px;
+            width: 410px;
+            margin: 0 auto;
+        }
+        .fundoSmartphone .texto_info p{
+            text-align: justify;
+            word-break: break-all;
+        }
+
+        .fundoSmartphone .links_info{
+            text-align: center;
+        }
+        .fundoSmartphone .links_info h4{
+            
+        }
+        .fundoSmartphone .links_info button{
+            border: none;
+            padding: 10px;
+            width: 410px;
+            background-color: #ff3f34;
+            color: white;
+            font-weight: 700;
+            line-height: 20px;
+            margin-top: 10px;
+        }
+
+    </style>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Pré-visualização</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+                <!-- TELEFONE RENDER -->
+                <div class="fundoSmartphone">
+
+                    <div class="cabecalho_info">
+                        <h4 id="titulo_info"></h4>
+                        <img id="info_foto" src="http://via.placeholder.com/300x300">
+                    </div>
+
+                    <div class="texto_info">
+                        <p id="corpo_info"></p>
+
+                        <div class="links_info" id="links_info"></div>
+                    </div>
+
+                </div>
+                <!-- FIM TELEFONE RENDER -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+        function cliqueDoBotaoLoro() {
+
+            var links = document.getElementById("links_info");
+            if ( links.hasChildNodes() ) {
+                while (links.firstChild) {
+                    links.removeChild(links.firstChild);
+                }
+            }
+
+
+            if (document.getElementById('titulo_info').hasChildNodes()) {
+
+                document.getElementById('titulo_info').
+                    removeChild(
+                        document.getElementById('titulo_info').lastChild
+                    );
+            }
+
+            if (document.getElementById('corpo_info').hasChildNodes()) {
+                
+                document.getElementById('corpo_info').
+                    removeChild(
+                        document.getElementById('corpo_info').lastChild
+                    );
+            }
+
+
+            var titulo = document.getElementById('informacao_titulo').value;
+            var corpo = (document.getElementById('informacao_corpo').value).substring(0,1000);
+
+            document.getElementById('titulo_info').appendChild(
+                document.createTextNode(titulo)
+            );
+
+            document.getElementById('corpo_info').appendChild(
+                document.createTextNode(corpo)
+            );
+
+
+            // verificar se linhaLinks so tem um ChildNodes 
+                // se a Child ta vazia nao coloca os links
+                // se nao ta itera normal
+
+            var linksTitulos = document.getElementsByClassName("links_titulo");
+
+            if ( !links.children.length == 1 && linksTitulos[0].value != "" ) {
+
+                var h6 = document.createElement('h6');
+                h6.appendChild(document.createTextNode("Links"));
+                document.getElementById('links_info').appendChild(h6);
+
+                var limiteDeLinks = 2;
+                var contador = 1;
+
+                for(var i = 0; i <= linksTitulos.length; i++){
+                    var btn = document.createElement('button');
+
+                    btn.appendChild(
+                            document.createTextNode(
+                                linksTitulos[i].value
+                            )
+                        );
+
+                    document.getElementById('links_info').appendChild(btn);
+
+                    if ( (contador++) == limiteDeLinks ) break;
+                }
+
+            }
+
+
+        }
+    </script>
 @endsection
