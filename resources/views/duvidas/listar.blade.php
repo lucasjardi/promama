@@ -56,20 +56,21 @@
                             </th>
                             </thead>
                             <tbody>
+                                
                             @foreach($duvidas as $duvida)
                                 <tr>
-                                    <td>{{ $duvida->user->name }}</td>
-                                    <td>{{ substr($duvida->duvida_pergunta,0,50) }}
-                                        {{ strlen($duvida->duvida_pergunta) > 50 ? " ..." : "" }}
+                                    <td>{{ $duvida->usuario->name }}</td>
+                                    <td>{{ substr($duvida->pergunta,0,50) }}
+                                        {{ strlen($duvida->pergunta) > 50 ? " ..." : "" }}
                                     </td>
                                     <td>
                                         @if(isset($respondidas))
-                                            <a href="{{ url ('duvidas/'. $duvida->duvida_id . '/editar') }}" class="btn btn-primary btn-sm">Editar Resposta</a>
+                                            <a href="{{ url ('duvidas/'. $duvida->id . '/editar') }}" class="btn btn-primary btn-sm">Editar Resposta</a>
                                         @else
-                                            <a href="{{ url ('duvidas/'. $duvida->duvida_id) }}" class="btn btn-primary btn-sm">Ver</a>
+                                            <a href="{{ url ('duvidas/'. $duvida->id) }}" class="btn btn-primary btn-sm">Ver</a>
                                         @endif
 
-                                        {!! Form::open(['method' => 'DELETE', 'url' => 'duvidas/'.$duvida->duvida_id, 'style' => 'display: inline']) !!}
+                                        {!! Form::open(['method' => 'DELETE', 'url' => 'duvidas/'.$duvida->id, 'style' => 'display: inline']) !!}
                                         <button type="submit" class="btn btn-default btn-sm">Apagar</button>
                                         {!! Form::close() !!}
                                     </td>

@@ -16,14 +16,14 @@ class DuvidasController extends Controller
 
     public function index()
     {
-        $duvidas = Duvida::with('user')->whereNull('duvida_resposta')->get();
+        $duvidas = Duvida::with('usuario')->whereNull('resposta')->get();
 
         return view('duvidas.listar',['duvidas' => $duvidas]);
     }
 
     public function read($duvidaId)
     {
-        $duvida = Duvida::with('user')->findOrFail($duvidaId);
+        $duvida = Duvida::with('usuario')->findOrFail($duvidaId);
         // $respostaDaDuvida = Resposta::where('resposta_duvida', "=", "$duvidaId")->first();
 
         // return view('duvidas.duvida',['duvida' => $duvida, 'resposta' => $respostaDaDuvida]);
@@ -32,12 +32,12 @@ class DuvidasController extends Controller
 
     public function atualizar(Request $request,$duvidaId)
     {
-        if($request->duvida_paraTodos === "on" ) $request->duvida_paraTodos = 1;
-        else $request->duvida_paraTodos = 0;
+        if($request->paraTodos === "on" ) $request->paraTodos = 1;
+        else $request->paraTodos = 0;
 
         $duvida = Duvida::findOrFail($duvidaId);
-        $duvida->duvida_resposta = $request->duvida_resposta;
-        $duvida->duvida_paraTodos = $request->duvida_paraTodos;
+        $duvida->resposta = $request->resposta;
+        $duvida->paraTodos = $request->paraTodos;
         $duvida->update();
 
         \Session::flash('mensagem_sucesso', 'Dúvida atualizada com sucesso!');
@@ -48,12 +48,12 @@ class DuvidasController extends Controller
 
     public function responderDuvida(Request $request)
     {
-        if($request->duvida_paraTodos === "on" ) $request->duvida_paraTodos = 1;
-        else $request->duvida_paraTodos = 0;
+        if($request->paraTodos === "on" ) $request->paraTodos = 1;
+        else $request->paraTodos = 0;
 
-        $duvida = Duvida::find($request->duvida_id);
-        $duvida->duvida_resposta = $request->duvida_resposta;
-        $duvida->duvida_paraTodos = $request->duvida_paraTodos;
+        $duvida = Duvida::find($request->id);
+        $duvida->resposta = $request->resposta;
+        $duvida->paraTodos = $request->paraTodos;
         $duvida->update();
 
         \Session::flash('mensagem_sucesso', 'Dúvida respondida com sucesso!');
@@ -63,7 +63,7 @@ class DuvidasController extends Controller
 
     public function renderizaRespondidas()
     {
-        $duvidas = Duvida::with('user')->whereNotNull('duvida_resposta')->get();
+        $duvidas = Duvida::with('usuario')->whereNotNull('resposta')->get();
 
         return view('duvidas.listar', ['duvidas' => $duvidas, 'respondidas' => true]);
     }

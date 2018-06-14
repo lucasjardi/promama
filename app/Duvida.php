@@ -8,15 +8,17 @@ class Duvida extends Model
 {
     //
 
+    protected $table = 'fale_conosco';
+
     protected $fillable = [
-      'duvida_pergunta'
+      'pergunta'
     ];
 
-    protected $primaryKey = 'duvida_id';
+    // protected $primaryKey = 'duvida_id';
 
-    public function user()
+    public function usuario()
     {
-        return $this->belongsTo(User::class, 'duvida_user', 'id');
+        return $this->belongsTo(User::class, 'user', 'id');
     }
 
 }

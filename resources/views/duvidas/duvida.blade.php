@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Dúvida de {{ $duvida->user->name }} em {{ $duvida->created_at }}</h4>
+                        <h4 class="card-title">Dúvida de {{ $duvida->usuario->name }} em {{ $duvida->created_at }}</h4>
                     </div>
 
                     @if( Session::has('mensagem_sucesso') )
@@ -20,19 +20,19 @@
 
                     <div class="card-body">
                         <p>
-                            {{ $duvida->duvida_pergunta }}
+                            {{ $duvida->pergunta }}
                         </p>
 
                         @if( Request::is('*/editar'))
-                            {{ Form::model($duvida, ['method' => 'PATCH', 'url' => 'duvidas/' . $duvida->duvida_id]) }}
+                            {{ Form::model($duvida, ['method' => 'PATCH', 'url' => 'duvidas/' . $duvida->id]) }}
                         @else
                             {!! Form::open(['url' => 'duvidas/responderDuvida']) !!}
                         @endif
-                        {!! Form::input('hidden','duvida_id', $duvida->duvida_id) !!}
+                        {!! Form::input('hidden','id', $duvida->id) !!}
 
 
-                        {!! Form::label('duvida_resposta','Responder dúvida') !!}
-                        {!! Form::textarea('duvida_resposta',null,['class' => 'form-control']) !!}
+                        {!! Form::label('resposta','Responder dúvida') !!}
+                        {!! Form::textarea('resposta',null,['class' => 'form-control']) !!}
 
                         {!! "<div class= 'checkbox'>" !!}
                         {!! "<label>" !!}
@@ -40,11 +40,11 @@
                         <?php 
                         $checked = null; 
                         if(isset($duvida)) 
-                            if($duvida->duvida_paraTodos == 1) 
+                            if($duvida->paraTodos == 1) 
                                 $checked = 'checked';
                         ?>
                         
-                        {!! Form::input('checkbox','duvida_paraTodos',null,[$checked]) !!}
+                        {!! Form::input('checkbox','paraTodos',null,[$checked]) !!}
                         {!! "Responder Dúvida Para Todos" !!}
                         {!! "</label>" !!}
                         {!! "</div>" !!}
