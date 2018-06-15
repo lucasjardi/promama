@@ -46,6 +46,7 @@
                         <span style="color: red"> * </span>
                         {!! Form::textarea('informacao_corpo', null,['class' => 'form-control', 'rows' => '5','required']) !!}
 
+                        @if(!Request::is('*/editar'))
                         <script type="text/javascript">
                             document.getElementById('informacao_titulo').addEventListener('keyup', verifica);
                             document.getElementById('informacao_corpo').addEventListener('keyup', verifica);
@@ -61,6 +62,14 @@
                                 }
                             }
                         </script>
+                        @else
+                          <script type="text/javascript">
+                              document.body.onload = function () {
+                                document.getElementById('previewInfo').disabled = false;
+                                document.getElementById('info_foto').src = "{{ $info->informacao_foto }}";
+                              }
+                          </script>
+                        @endif
 
                         {!! Form::label('informacao_idadeSemanasInicio','Idade') !!}
                         <span style="color: red"> * </span>
@@ -93,11 +102,11 @@
                                         <input type="hidden" name="linkId[]" value="{{ $link->id }}">
                                         <div class="col-md-5" id="containerChave">
                                             <label for="chave">Título: </label>
-                                            <input type="text" name="chavesFromBanco[]" class="form-control" placeholder="Post do Facebook" value="{{ $link->titulo }}" onkeyup="valuesChanged()">
+                                            <input type="text" name="chavesFromBanco[]" class="form-control links_titulo" placeholder="Post do Facebook" value="{{ $link->titulo }}" onkeyup="valuesChanged()">
                                         </div>
                                         <div class="col-md-5" id="containerValor">
                                             <label for="chave">Link: </label>
-                                            <input type="text" name="valoresFromBanco[]" class="form-control" placeholder="http://facebook.com" value="{{ $link->url }}" onkeyup="valuesChanged()">
+                                            <input type="text" name="valoresFromBanco[]" class="form-control links_url" placeholder="http://facebook.com" value="{{ $link->url }}" onkeyup="valuesChanged()">
                                         </div>
                                         <div class="col-md-2">
                                             <a href="" id="{{ $link->id }}" onclick="removeLink(this);return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
@@ -107,11 +116,11 @@
                                     <div class="row" id="firstElement">
                                         <div class="col-md-5" id="containerChave">
                                             <label for="chave">Título: </label>
-                                            <input type="text" name="chavesToSave[]" class="form-control" placeholder="Post do Facebook">
+                                            <input type="text" name="chavesToSave[]" class="form-control links_titulo" placeholder="Post do Facebook">
                                         </div>
                                         <div class="col-md-5" id="containerValor">
                                             <label for="chave">Link: </label>
-                                            <input type="text" name="valoresToSave[]" class="form-control" placeholder="http://facebook.com">
+                                            <input type="text" name="valoresToSave[]" class="form-control links_url" placeholder="http://facebook.com">
                                         </div>
                                         <div class="col-md-2">
                                             <a href="" onclick="document.getElementById('linhaLink').removeChild(document.getElementById('firstElement')); return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
@@ -328,7 +337,9 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Pré-visualização</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">
+              Pré-visualização
+            </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -340,7 +351,7 @@
 
                     <div class="cabecalho_info">
                         <h4 id="titulo_info"></h4>
-                        <img id="info_foto" src="http://via.placeholder.com/300x300">
+                        <img id="info_foto" >
                     </div>
 
                     <div class="texto_info">
@@ -353,6 +364,9 @@
                 <!-- FIM TELEFONE RENDER -->
           </div>
           <div class="modal-footer">
+            <p class="modal-title">
+                  *Isto é apenas uma prévia. Não reflete de fato como ficará a informação no celular.
+            </p>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
           </div>
@@ -376,6 +390,12 @@
                     removeChild(
                         document.getElementById('titulo_info').lastChild
                     );
+            }
+
+            if (document.getElementById('info_foto').src == '') {
+                document.getElementById('info_foto').style.display = 'none';
+            } else {
+                document.getElementById('info_foto').style.display = '';
             }
 
             if (document.getElementById('corpo_info').hasChildNodes()) {

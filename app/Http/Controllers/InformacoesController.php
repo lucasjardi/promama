@@ -70,6 +70,7 @@ class InformacoesController extends Controller
                 if($request->has("chavesToSave")) {
                     $toSave = array_combine($request->chavesToSave, $request->valoresToSave);
 
+                    $cont = 0;
                     foreach ( $toSave as $titulo => $url ) {
                         
                         if ($titulo != null && $titulo != "" && $url != null && $url != "") {
@@ -81,8 +82,11 @@ class InformacoesController extends Controller
                             ]);
 
                         } else {
-                            array_push($errors, 'Erro ao salvar alguns Links');
+                            if(!$cont == 0)
+                                array_push($errors, 'Alguns Links ficaram em branco os campos e não foram salvos.');
                         }
+
+                        $cont++;
                     }            
                 }
 
