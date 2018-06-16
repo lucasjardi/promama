@@ -73,20 +73,20 @@
                             <p>Informações</p>
                         </a>
                     </li>
-                    <li class="{{ Request::is('notificar') || Request::is('notificar/*') ? 'active' : '' }}">
-                        <a href="{{ url('notificar') }}">
+                    <li class="{{ Request::is('notificacoes') || Request::is('notificacoes/*') ? 'active' : '' }}">
+                        <a href="{{ url('notificacoes') }}">
                             <i class="fas fa-exclamation-circle"></i>
-                            <p>Notificar</p>
+                            <p>Notificações</p>
                         </a>
                     </li>
                     <li class="{{ Request::is('duvidas') || Request::is('duvidas/*') ? 'active' : '' }}">
                         <a href="{{ url('duvidas') }}">
-                            <i class="far fa-question-circle"></i>
+                            <i class="fas fa-bullhorn"></i>
                             <p>Fale Conosco</p>
                         </a>
                     </li>
-                    <li class="{{ Request::is('duvidas') || Request::is('duvidas/*') ? 'active' : '' }}">
-                        <a href="{{ url('duvidas') }}">
+                    <li class="{{ Request::is('duvidas-frequentes') || Request::is('duvidas-frequentes/*') ? 'active' : '' }}">
+                        <a href="{{ url('duvidas-frequentes') }}">
                             <i class="far fa-question-circle"></i>
                             <p>Dúvidas Frequentes</p>
                         </a>

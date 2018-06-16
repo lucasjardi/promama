@@ -18,9 +18,6 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/renderizar/{infoId}', 'InformacoesController@renderizarInformacaoSmartphone');
 
-Route::get('/notificar', 'NotificacoesController@index');
-Route::post('/notificar/salvar', 'NotificacoesController@store');
-
 // bairros
 Route::prefix('bairros')->group(function (){
     Route::get('','BairrosController@index');
@@ -54,7 +51,7 @@ Route::prefix('postos')->group(function (){
     Route::delete('/{posto}','PostosController@deletar');
 });
 
-// duvidas
+// fale conosco
 
 Route::prefix('duvidas')->group(function (){
     Route::get('', 'DuvidasController@index');
@@ -64,4 +61,26 @@ Route::prefix('duvidas')->group(function (){
     Route::patch('/{duvida}','DuvidasController@atualizar');
     Route::post('/responderDuvida', 'DuvidasController@responderDuvida');
     Route::delete('/{duvida}','DuvidasController@deletar');
+});
+
+// duvidas frequentes
+
+Route::prefix('duvidas-frequentes')->group(function (){
+    Route::get('', 'DuvidaFrequenteController@index');
+    Route::get('/novo', 'DuvidaFrequenteController@novo');
+    Route::post('/salvar', 'DuvidaFrequenteController@salvar');
+    Route::get('/{duvidafrequente}/editar','DuvidaFrequenteController@editar');
+    Route::patch('/{duvidafrequente}','DuvidaFrequenteController@atualizar');
+    Route::delete('/{duvidafrequente}','DuvidaFrequenteController@deletar');
+});
+
+// notificacoes
+
+Route::prefix('notificacoes')->group(function (){
+    Route::get('', 'NotificacoesController@index');
+    Route::get('/novo', 'NotificacoesController@novo');
+    Route::post('/salvar', 'NotificacoesController@store');
+    Route::get('/{notificacao}/editar','NotificacoesController@editar');
+    Route::patch('/{notificacao}','NotificacoesController@atualizar');
+    Route::delete('/{notificacao}','NotificacoesController@deletar');
 });

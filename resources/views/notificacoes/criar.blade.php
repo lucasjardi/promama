@@ -21,9 +21,9 @@
                         @endif
 
                         @if( Request::is('*/editar'))
-                            {{ Form::model($notificacao, ['method' => 'PATCH', 'url' => 'notificar/' . $notificacao->id]) }}
+                            {{ Form::model($notificacao, ['method' => 'PATCH', 'url' => 'notificacoes/' . $notificacao->id]) }}
                         @else
-                                {!! Form::open(['url' => 'notificar/salvar']) !!}
+                                {!! Form::open(['url' => 'notificacoes/salvar']) !!}
                         @endif
                         
                         {!! Form::label('titulo','Título da notificação') !!}
@@ -31,15 +31,22 @@
                         {!! Form::label('texto','Texto da notificação') !!}
                         {!! Form::input('text','texto',null, ['class' => 'form-control', 'placeholder' => 'Texto da notificação']) !!}
                         {!! Form::label('informacao_idadeSemanasInicio','Idade alvo:') !!}
+
                         <select name="semana" class="form-control" id="caixaIdades">
-                                <?php foreach ($idades as $idade): ?>
-                                    <option value="<?php echo $idade->semanas ?>"><?php echo $idade->idade ?></option>
-                                <?php endforeach ?>
+                            <?php foreach ($idades as $idade): ?>
+                                <?php
+                                    $selected = null; 
+                                    if (Request::is('*/editar')) {
+                                        $selected = ($idade->semanas == $notificacao->semana) ? "selected=\"selected\"" : null;
+                                     } 
+                                ?>
+                                <option value="<?php echo $idade->semanas ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
+                            <?php endforeach ?>
                         </select>
 
                         {!! "<br>" !!}
-                        {!! Form::input('checkbox','notificarAgora',null, ['id' => 'cbNotificar']) !!}
-                        {!! Form::label('notificarAgora','NOTIFICAR AGORA', ['id' => 'labelNotificar']) !!}
+                        {!! Form::input('checkbox','notificacoesAgora',null, ['id' => 'cbNotificar']) !!}
+                        {!! Form::label('notificacoesAgora','NOTIFICAR AGORA', ['id' => 'labelNotificar']) !!}
                         {!! "<br>" !!}
                         {!! Form::submit('Enviar', ['class' => 'btn btn-primary']) !!}
 

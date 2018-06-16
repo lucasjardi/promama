@@ -15,21 +15,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-
-                        <div class="col">
-                            <h4 class="card-title"> Mensagens {{ isset($respondidas) ? "" : "não" }} respondidas</h4>
-                        </div>
-
-                        @if(!Request::is('*/respondidas'))
-                        <div class="col text-right" style="margin-top: 15px">
-                                <a href="{{ url('duvidas/respondidas') }}">
-                                    Mostrar Mensagens Respondidas
-                                </a>
-                        </div>
-                        @endif
-
-                    </div>
+                    <h4 class="card-title"> Notificações </h4>
+                    <button onclick="location.href='{{ url('notificacoes/novo') }}'" class="btn btn-primary float-right" style="margin-top: -50px;">
+                        <i class="now-ui-icons ui-1_simple-add"></i>
+                        Adicionar Notificação
+                    </button>
                 </div>
 
                 @if( Session::has('mensagem_sucesso') )
@@ -46,32 +36,31 @@
                         <table class="table" id="myTable">
                             <thead class=" text-primary">
                             <th>
-                                Usuário
+                                Título
                             </th>
                             <th>
-                                Mensagem
+                                Texto
+                            </th>
+                            <th>
+                                Idade
                             </th>
                             <th>
                                 Ações
                             </th>
                             </thead>
                             <tbody>
-                                
-                            @foreach($duvidas as $duvida)
-                                <tr>
-                                    <td>{{ $duvida->usuario->name }}</td>
-                                    <td>{{ substr($duvida->pergunta,0,50) }}
-                                        {{ strlen($duvida->pergunta) > 50 ? " ..." : "" }}
-                                    </td>
-                                    <td>
-                                        @if(isset($respondidas))
-                                            <a href="{{ url ('duvidas/'. $duvida->id . '/editar') }}" class="btn btn-primary btn-sm">Editar Resposta</a>
-                                        @else
-                                            <a href="{{ url ('duvidas/'. $duvida->id) }}" class="btn btn-primary btn-sm">Ver</a>
-                                        @endif
 
-                                        {!! Form::open(['method' => 'DELETE', 'url' => 'duvidas/'.$duvida->id, 'style' => 'display: inline']) !!}
-                                        <button type="submit" class="btn btn-default btn-sm">Apagar</button>
+                            @foreach($notificacoes as $notificacao)
+                                <tr>
+                                    <td>{{ substr($notificacao->titulo,0,20) }}
+                                        {{ strlen($notificacao->titulo) > 20 ? " ..." : "" }}</td>
+                                    <td>{{ substr($notificacao->texto,0,20) }}
+                                        {{ strlen($notificacao->texto) > 20 ? " ..." : "" }}</td>
+                                    <td>{{ App\Idade::where('semanas',$notificacao->semana)->pluck('idade')->first() }}</td>
+                                    <td>
+                                        <a href="notificacoes/{{ $notificacao->id }}/editar" class="btn btn-primary btn-sm">Editar</a>
+                                        {!! Form::open(['method' => 'DELETE', 'url' => 'notificacoes/'.$notificacao->id, 'style' => 'display: inline']) !!}
+                                        <button type="submit" class="btn btn-default btn-sm">Remover</button>
                                         {!! Form::close() !!}
                                     </td>
                                 </tr>

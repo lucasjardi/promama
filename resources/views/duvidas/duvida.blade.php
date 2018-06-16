@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Dúvida de {{ $duvida->usuario->name }} em {{ $duvida->created_at }}</h4>
+                        <h4 class="card-title">Mensagem de {{ $duvida->usuario->name }} em {{ $duvida->created_at }}</h4>
                     </div>
 
                     @if( Session::has('mensagem_sucesso') )

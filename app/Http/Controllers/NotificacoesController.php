@@ -23,6 +23,12 @@ class NotificacoesController extends Controller
 
     public function index()
     {
+        $notificacoes = Notificacao::all();
+        return view('notificacoes.listar',['notificacoes' => $notificacoes]);
+    }
+
+    public function novo()
+    {
       return view('notificacoes.criar', ['idades' => Idade::get()]);
     }
 
@@ -46,7 +52,36 @@ class NotificacoesController extends Controller
       if($request->notificarAgora !== NULL) $request->merge(['semana' => 0]);
     	Notificacao::create($request->all());
       \Session::flash('mensagem_sucesso', 'Notificacao registrada com sucesso!');
-        return \Redirect::to('notificar');
+        return \Redirect::to('notificacoes');
     }
 
+    public function editar($id)
+    {
+        $notificacao = Notificacao::findOrFail($id);
+
+        return view('notificacoes.criar', ['notificacao' => $notificacao, 'idades' => Idade::get()]);
+
+    }
+
+    public function atualizar($id, Request $request)
+    {
+        $notificacao = Notificacao::findOrFail($id);
+
+        $notificacao->update($request->all());
+
+        \Session::flash('mensagem_sucesso', 'Notificacao atualizada com sucesso!');
+
+        return \Redirect::to('notificacoes/'.$notificacao->id.'/editar');
+    }
+
+    public function deletar($id)
+    {
+        $notificacao = Notificacao::findOrFail($id);
+
+        $notificacao->delete();
+
+        \Session::flash('mensagem_sucesso', 'Notificacao excluída com sucesso!');
+
+        return \Redirect::to('notificacoes');
+    }
 }
