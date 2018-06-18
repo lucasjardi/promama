@@ -40,7 +40,7 @@
                                         $selected = ($idade->semanas == $notificacao->semana) ? "selected=\"selected\"" : null;
                                      } 
                                 ?>
-                                <option value="<?php echo $idade->semanas ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
+                                <option value="<?php echo $idade->dias ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
                             <?php endforeach ?>
                         </select>
 

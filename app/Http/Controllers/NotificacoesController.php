@@ -29,7 +29,7 @@ class NotificacoesController extends Controller
 
     public function novo()
     {
-      return view('notificacoes.criar', ['idades' => Idade::get()]);
+      return view('notificacoes.criar', ['idades' => Idade::orderBy('semanas')->get()]);
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class NotificacoesController extends Controller
     {
         $notificacao = Notificacao::findOrFail($id);
 
-        return view('notificacoes.criar', ['notificacao' => $notificacao, 'idades' => Idade::get()]);
+        return view('notificacoes.criar', ['notificacao' => $notificacao, 'idades' => Idade::orderBy('semanas')->get()]);
 
     }
 
