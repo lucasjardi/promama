@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Informacao;
 use App\Link;
 use App\Idade;
+use App\DuvidaFrequente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +28,7 @@ class InformacoesController extends Controller
 
     public function novo()
     {
-        return view('informacoes.formulario', ['idades' => Idade::get()]);
+        return view('informacoes.formulario', ['idades' => Idade::orderBy('semanas')->get(), 'duvidasFrequentes' => DuvidaFrequente::get()]);
     }
 
     public function renderizarInformacaoSmartphone($id)
@@ -90,6 +91,17 @@ class InformacoesController extends Controller
                     }            
                 }
 
+                if ( $request->has('duvidas_frequentes') && $request->duvidas_frequentes != "") {
+                    
+                    $df = DuvidaFrequente::find($request->duvidas_frequentes);
+
+                    Link::create([
+                                'informacao' => $informacao->informacao_id,
+                                'titulo' => $df->titulo,
+                                'url' => "DUVIDAFREQUENTE:{$df->id}"
+                            ]);
+                }
+
         } else {
             array_push($errors, 'Erro ao salvar Informação, Tente Novamente');
         }
@@ -108,7 +120,7 @@ class InformacoesController extends Controller
     public function editar($id)
     {
         $info = Informacao::findOrFail($id);
-        return view('informacoes.formulario', ['info' => $info, 'idades' => Idade::get()]);
+        return view('informacoes.formulario', ['info' => $info, 'idades' => Idade::orderBy('semanas')->get(), 'duvidasFrequentes' => DuvidaFrequente::get()]);
 
     }
 
@@ -157,7 +169,16 @@ class InformacoesController extends Controller
         }
 
 
+        if ( $request->has('duvidas_frequentes') && $request->duvidas_frequentes != "") {
+                    
+            $df = DuvidaFrequente::find($request->duvidas_frequentes);
 
+            Link::create([
+                        'informacao' => $id,
+                        'titulo' => $df->titulo,
+                        'url' => "DUVIDAFREQUENTE:{$df->id}"
+                    ]);
+        }
 
         if($request->has("changed")) {
 

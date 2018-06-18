@@ -93,7 +93,12 @@
                         <br>
 
                         <div class="collapse" id="maisOpcoes">
-                            <label><b>Adicionar Links</b> <a href="" onclick="return false;" id="adicionarLink"><i class="fas fa-plus-circle"></i></a></label>
+                            
+                            @if(Request::is('*/editar'))
+                              <label><b>Lista de Links </b> <a href="" onclick="return false;" id="adicionarLink"><i class="fas fa-plus-circle"></i></a></label>
+                            @else
+                              <label><b>Adicionar Links Externos </b> <a href="" onclick="return false;" id="adicionarLink"><i class="fas fa-plus-circle"></i></a></label>
+                            @endif
                             
                             <div id="linhaLink">
                                 @if(isset($info))
@@ -106,47 +111,33 @@
                                         </div>
                                         <div class="col-md-5" id="containerValor">
                                             <label for="chave">Link: </label>
-                                            <input type="text" name="valoresFromBanco[]" class="form-control links_url" placeholder="http://facebook.com" value="{{ $link->url }}" onkeyup="valuesChanged()">
+                                              <input type="text" name="valoresFromBanco[]" class="form-control links_url" placeholder="http://facebook.com" value="{{ $link->url }}" onkeyup="valuesChanged()">
                                         </div>
                                         <div class="col-md-2">
                                             <a href="" id="{{ $link->id }}" onclick="removeLink(this);return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
                                         </div>
                                     </div>
                                     @empty
-                                    <div class="row" id="firstElement">
-                                        <div class="col-md-5" id="containerChave">
-                                            <label for="chave">Título: </label>
-                                            <input type="text" name="chavesToSave[]" class="form-control links_titulo" placeholder="Post do Facebook">
-                                        </div>
-                                        <div class="col-md-5" id="containerValor">
-                                            <label for="chave">Link: </label>
-                                            <input type="text" name="valoresToSave[]" class="form-control links_url" placeholder="http://facebook.com">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="" onclick="document.getElementById('linhaLink').removeChild(document.getElementById('firstElement')); return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
-                                        </div>
-                                    </div>
                                     @endforelse
-
-                                @else
-                                    <div class="row" id="firstElement">
-                                        <div class="col-md-5" id="containerChave">
-                                            <label for="chave">Título: </label>
-                                            <input type="text" name="chavesToSave[]" class="form-control links_titulo" placeholder="Post do Facebook">
-                                        </div>
-                                        <div class="col-md-5" id="containerValor">
-                                            <label for="chave">Link: </label>
-                                            <input type="text" name="valoresToSave[]" class="form-control links_url" placeholder="http://facebook.com">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="" onclick="document.getElementById('linhaLink').removeChild(document.getElementById('firstElement')); return false;"><i class="fas fa-minus-circle" style="margin-top: 35px;"></i></a>
-                                        </div>
-                                    </div>
                                 @endif
                             </div>
 
+                            <label><b>Adicionar Link Para Dúvida Frequente </b> <a href="" onclick="return false;" id="exibeDuvidasFrequentes"><i class="fas fa-plus-circle"></i></a></label>
+
+                             <select name="duvidas_frequentes" class="form-control" id="cbDuvidasFrequentes" style="display: none;">
+                              <option value=""></option>
+                                <?php foreach ($duvidasFrequentes as $df): ?>
+                                    <option value="<?php echo $df->id ?>"><?php echo $df->titulo ?></option>
+                                <?php endforeach ?>
+                            </select>
+
 
                             <script type="text/javascript">
+                                document.getElementById('exibeDuvidasFrequentes').addEventListener("click", function () {
+                                    document.getElementById('cbDuvidasFrequentes').style.display = 'block';
+                                });
+
+
                                 document.getElementById("adicionarLink").addEventListener("click", function() {
 
                                       var row = document.createElement("div");

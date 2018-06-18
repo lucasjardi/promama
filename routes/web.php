@@ -84,3 +84,89 @@ Route::prefix('notificacoes')->group(function (){
     Route::patch('/{notificacao}','NotificacoesController@atualizar');
     Route::delete('/{notificacao}','NotificacoesController@deletar');
 });
+
+Route::get('pika', function ()
+{
+    $idades = App\Idade::orderBy('semanas')->get();
+
+    // echo "UPDATE idades SET dias = ";
+
+    $controle = 1;
+    $somaDias = 0;
+    $switch = true;
+
+    for ($i=1; $i <= 48 ; $i++) {
+        echo "UPDATE idades SET dias = ";
+
+        if($controle++ == 4){
+            if($switch){
+                $somaDias += (7 + 3);
+                $switch = false;
+
+                echo $somaDias;
+            } else {
+                $somaDias += (7 + 2);
+                $switch = true;
+
+                echo $somaDias;
+            }
+            $controle = 1;
+        } else{
+            $somaDias += 7;
+
+            echo $somaDias;
+        }
+
+        echo " WHERE id = ". $i . "; <br>";
+
+    }
+
+    $somaDias -= 1; // feveireiro 29 dias
+
+    echo "<br> soma dos dias = ".$somaDias;
+});
+
+Route::get('pika2', function ()
+{
+    $idades = App\Idade::orderBy('semanas')->get();
+
+    // echo "UPDATE idades SET dias = ";
+
+    $controle = 1;
+    $somaDias = 379;
+    $switch = true;
+
+    for ($i=49; $i <= 72 ; $i++) {
+        echo "UPDATE idades SET dias = ";
+
+        if($controle++ == 4){
+            if($switch){
+                echo $somaDias;
+                $somaDias += (14 + 3);
+                $switch = false;
+            } else {
+                echo $somaDias;
+                $somaDias += (14 + 2);
+                $switch = true;
+            }
+            $controle = 1;
+        } else{
+            echo $somaDias;
+            $somaDias += 14;
+        }
+
+        echo " WHERE id = ". $i . "; <br>";
+
+    }
+
+    $somaDias -= 1; // feveireiro 29 dias
+
+    echo "<br> soma dos dias = ".$somaDias;
+});
+
+Route::get('teste', function ()
+{
+    $duvi = "DUVIDAFREQUENTE:5";
+
+    echo substr($duvi, strpos($duvi, ':') + 1, strlen($duvi));
+});
