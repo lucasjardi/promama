@@ -49,7 +49,7 @@ class NotificacoesController extends Controller
       // echo $topicResponse->shouldRetry() . "<br>";
       // echo $topicResponse->error() . "<br>";
 
-      if($request->notificarAgora !== NULL) $request->merge(['semana' => 0]);
+      if($request->notificacoesAgora !== NULL) $request->merge(['semana' => -1]);
     	Notificacao::create($request->all());
       \Session::flash('mensagem_sucesso', 'Notificacao registrada com sucesso!');
         return \Redirect::to('notificacoes');
@@ -66,6 +66,8 @@ class NotificacoesController extends Controller
     public function atualizar($id, Request $request)
     {
         $notificacao = Notificacao::findOrFail($id);
+
+        if($request->notificacoesAgora !== NULL) $request->merge(['semana' => -1]);
 
         $notificacao->update($request->all());
 

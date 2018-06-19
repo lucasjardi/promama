@@ -37,7 +37,7 @@
                                 <?php
                                     $selected = null; 
                                     if (Request::is('*/editar')) {
-                                        $selected = ($idade->semanas == $notificacao->semana) ? "selected=\"selected\"" : null;
+                                        $selected = ($idade->dias == $notificacao->semana) ? "selected=\"selected\"" : null;
                                      } 
                                 ?>
                                 <option value="<?php echo $idade->dias ?>" <?php echo $selected ?> ><?php echo $idade->idade ?></option>
@@ -45,8 +45,26 @@
                         </select>
 
                         {!! "<br>" !!}
-                        {!! Form::input('checkbox','notificacoesAgora',null, ['id' => 'cbNotificar']) !!}
-                        {!! Form::label('notificacoesAgora','NOTIFICAR AGORA', ['id' => 'labelNotificar']) !!}
+                        
+                        {!! "<div class= 'checkbox'>" !!}
+                        {!! "<label>" !!}
+
+                        <?php 
+                        $checked = null; 
+                        if(isset($notificacao)) 
+                            if($notificacao->semana == -1) {
+                                $checked = 'checked';
+
+                                echo "<script>document.getElementById('caixaIdades').disabled = true;</script>";
+
+                            }
+                        ?>
+                        
+                        {!! Form::input('checkbox','notificacoesAgora',null,['id' => 'cbNotificar', $checked]) !!}
+                        {!! "Notificar o quanto antes" !!}
+                        {!! "</label>" !!}
+                        {!! "</div>" !!}
+
                         {!! "<br>" !!}
                         {!! Form::submit('Enviar', ['class' => 'btn btn-primary']) !!}
 

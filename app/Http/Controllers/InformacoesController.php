@@ -91,15 +91,17 @@ class InformacoesController extends Controller
                     }            
                 }
 
-                if ( $request->has('duvidas_frequentes') && $request->duvidas_frequentes != "") {
+                if ( $request->has('duvidas_frequentes') ) {
                     
-                    $df = DuvidaFrequente::find($request->duvidas_frequentes);
+                    foreach ($request->duvidas_frequentes as $key => $value) {
+                        $df = DuvidaFrequente::find($value);
 
-                    Link::create([
-                                'informacao' => $informacao->informacao_id,
-                                'titulo' => $df->titulo,
-                                'url' => "DUVIDAFREQUENTE:{$df->id}"
-                            ]);
+                        Link::create([
+                                    'informacao' => $informacao->informacao_id,
+                                    'titulo' => $df->titulo,
+                                    'url' => "DUVIDAFREQUENTE:{$df->id}"
+                                ]);
+                    }
                 }
 
         } else {
@@ -169,15 +171,17 @@ class InformacoesController extends Controller
         }
 
 
-        if ( $request->has('duvidas_frequentes') && $request->duvidas_frequentes != "") {
+        if ( $request->has('duvidas_frequentes') ) {
                     
-            $df = DuvidaFrequente::find($request->duvidas_frequentes);
+            foreach ($request->duvidas_frequentes as $key => $value) {
+                $df = DuvidaFrequente::find($value);
 
-            Link::create([
-                        'informacao' => $id,
-                        'titulo' => $df->titulo,
-                        'url' => "DUVIDAFREQUENTE:{$df->id}"
-                    ]);
+                Link::create([
+                            'informacao' => $id,
+                            'titulo' => $df->titulo,
+                            'url' => "DUVIDAFREQUENTE:{$df->id}"
+                        ]);
+            }
         }
 
         if($request->has("changed")) {

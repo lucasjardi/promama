@@ -124,17 +124,30 @@
 
                             <label><b>Adicionar Link Para Dúvida Frequente </b> <a href="" onclick="return false;" id="exibeDuvidasFrequentes"><i class="fas fa-plus-circle"></i></a></label>
 
-                             <select name="duvidas_frequentes" class="form-control" id="cbDuvidasFrequentes" style="display: none;">
-                              <option value=""></option>
-                                <?php foreach ($duvidasFrequentes as $df): ?>
-                                    <option value="<?php echo $df->id ?>"><?php echo $df->titulo ?></option>
-                                <?php endforeach ?>
-                            </select>
+                            <div id="comboboxesDuvidasFrequentes"></div>
+
+                             
 
 
                             <script type="text/javascript">
+                                
                                 document.getElementById('exibeDuvidasFrequentes').addEventListener("click", function () {
-                                    document.getElementById('cbDuvidasFrequentes').style.display = 'block';
+                                    var cbDF = document.createElement("select");
+                                    cbDF.className = "form-control";
+                                    cbDF.name = "duvidas_frequentes[]";
+                                    var option = document.createElement("option");
+                                    option.value = "";
+
+                                    <?php foreach ($duvidasFrequentes as $df): ?>
+                                      option = document.createElement("option");
+                                      option.value = "<?php echo $df->id ?>";
+                                      option.appendChild(document.createTextNode("<?php echo $df->titulo ?>"));
+                                      cbDF.appendChild(option);
+                                    <?php endforeach ?>
+
+                                    cbDF.appendChild(option);
+
+                                    document.getElementById('comboboxesDuvidasFrequentes').appendChild(cbDF);
                                 });
 
 
@@ -212,6 +225,10 @@
                                     document.getElementById("linhaLink").appendChild(toDelete);
 
                                     // document.getElementById("maisOpcoes").removeChild(elemento.path[2]);
+                                }
+
+                                function removeCb(elemento) {
+                                    document.getElementById("comboboxesDuvidasFrequentes").removeChild(elemento.parentNode);
                                 }
 
                                 function valuesChanged() {
