@@ -16,7 +16,7 @@ class DuvidasController extends Controller
 
     public function index()
     {
-        $duvidas = Duvida::with('usuario')->whereNull('resposta')->get();
+        $duvidas = Duvida::with('usuario')->whereNull('resposta')->orderBy('created_at',false)->get();
 
         return view('duvidas.listar',['duvidas' => $duvidas]);
     }

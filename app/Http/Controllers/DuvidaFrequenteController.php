@@ -17,7 +17,7 @@ class DuvidaFrequenteController extends Controller
     public function index()
     {
 //        $duvidasfrequentes = DuvidaFrequente::paginate(5);
-        $duvidasfrequentes = DuvidaFrequente::all();
+        $duvidasfrequentes = DuvidaFrequente::orderBy('updated_at',false)->orderBy('created_at',false)->get();
         return view('duvidasfrequentes.listar',['duvidasfrequentes' => $duvidasfrequentes]);
     }
 

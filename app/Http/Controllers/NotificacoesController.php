@@ -23,7 +23,7 @@ class NotificacoesController extends Controller
 
     public function index()
     {
-        $notificacoes = Notificacao::all();
+        $notificacoes = Notificacao::orderBy('semana')->orderBy('titulo')->get();
         return view('notificacoes.listar',['notificacoes' => $notificacoes]);
     }
 

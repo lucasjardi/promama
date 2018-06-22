@@ -17,7 +17,7 @@ class PostosController extends Controller
     public function index()
     {
 //        $postos = Posto::paginate(5);
-        $postos = Posto::all();
+        $postos = Posto::orderBy('posto_nome')->get();
         return view('postos.listar', ['postos' => $postos]);
     }
 

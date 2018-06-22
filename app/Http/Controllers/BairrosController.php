@@ -15,7 +15,7 @@ class BairrosController extends Controller
     public function index()
     {
 //        $bairros = Bairro::paginate(5);
-        $bairros = Bairro::all();
+        $bairros = Bairro::orderBy('bairro_nome')->get();
         return view('bairros.listar',['bairros' => $bairros]);
     }
 
