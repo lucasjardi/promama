@@ -22,7 +22,7 @@ class InformacoesController extends Controller
 
     public function index()
     {
-        $infos = Informacao::all();
+        $infos = Informacao::orderBy('informacao_idadeSemanasInicio')->orderBy('informacao_titulo')->get();
         return view('informacoes.listar',['infos' => $infos]);
     }
 
