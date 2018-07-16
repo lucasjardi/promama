@@ -8,7 +8,7 @@
             <div class="card card-chart">
                 <div class="card-header">
                     <h5 class="card-category">Dúvidas e Respostas</h5>
-                    <h4 class="card-title"><b>{{ $duvidas }}</b> novas dúvidas</h4>
+                    <h4 class="card-title"><b>{{ $duvidas }}</b> dúvidas não lidas</h4>
                 </div>
                 <div class="card-body">
                     <a href="{{ url('/duvidas') }}">Ir até as dúvidas</a>

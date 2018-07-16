@@ -14,4 +14,9 @@ class DuvidaFrequente extends Model
       'titulo',
       'texto'
     ];
+
+    public function links()
+    {
+        return $this->hasMany(Link::class, 'duvidafrequente', 'id');
+    }
 }
