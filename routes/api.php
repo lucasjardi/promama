@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::middleware('auth:api')->post('/esqueciasenha','ApiController@esqueciasenha');
 
 # LOGIN #
 Route::middleware('auth:api')->post('/login', 'ApiController@login');

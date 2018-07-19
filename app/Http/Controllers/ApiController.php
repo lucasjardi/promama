@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EsqueciASenha;
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Http\Request;
 use App\Bairro;
 use App\Posto;
@@ -26,6 +29,49 @@ class ApiController extends Controller
     {
         $this->middleware('auth:api');
     }
+
+    /* email */
+
+    public function esqueciasenha(Request $request)
+    {
+        $validator = Validator::make($request->only('email'), [
+            'email' => 'email',
+        ]);
+
+        if (! $validator->fails()) {
+
+            $usuarioSolicitante = User::where('email', $request->email)->first();
+
+            if ($usuarioSolicitante != null) {
+
+                $senha_reserva = str_random(5);
+                
+                $usuarioSolicitante->senha_reserva = $senha_reserva;
+
+                $usuarioSolicitante->update();
+
+                Mail::to($request->email)->send(new EsqueciASenha($senha_reserva));
+
+                return response()->json([
+                    'success' => true,
+                    'message' => $senha_reserva
+                ]);
+
+            } else {
+                return response()->json([
+                    'message' => 'Este e-mail não consta no nosso sistema.',
+                ], 401);
+            }
+
+        } else {
+            return response()->json([
+                'message' => 'O e-mail é inválido.',
+            ], 401);
+        }
+
+    }
+
+    /* fim email */
 
     public function cadastrarUser(Request $request)
     {
