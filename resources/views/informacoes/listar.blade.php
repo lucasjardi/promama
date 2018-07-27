@@ -53,7 +53,7 @@
                                         </a>
                                         &nbsp;
                                         {!! Form::open(['method' => 'DELETE', 'url' => 'informacoes/'.$info->informacao_id,'id' => 'form-delete']) !!}
-                                            <button type="submit" style="border: none; background: none; margin: 0; padding: 0;cursor: pointer;"><i class="fa fa-trash" style="color: #a1a1a1;"></i></button>
+                                            <button onclick="return ConfirmDelete()" style="border: none; background: none; margin: 0; padding: 0;cursor: pointer;"><i class="fa fa-trash" style="color: #a1a1a1;"></i></button>
                                         {!! Form::close() !!}
                                         </div>
                                     </td>
@@ -61,6 +61,18 @@
                             @endforeach
                             </tbody>
                         </table>
+                        <script>
+
+                          function ConfirmDelete()
+                          {
+                              var x = confirm("Are you sure you want to delete?");
+                              if (x)
+                                return true;
+                              else
+                                return false;
+                              }
+
+                        </script>
                     </div>
                 </div>
             </div>
