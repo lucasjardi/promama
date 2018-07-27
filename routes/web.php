@@ -13,6 +13,11 @@
 
 Auth::routes();
 
+Route::get('/termo-de-compromisso',function()
+{
+    return view('termo.termo');
+});
+
 Route::get('/','HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
 

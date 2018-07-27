@@ -338,10 +338,11 @@
             line-height: 20px;
             margin-top: 10px;
         }
-
     </style>
+
+
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="width: 600px;margin: 0 auto;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -355,19 +356,21 @@
           <div class="modal-body">
 
                 <!-- TELEFONE RENDER -->
-                <div class="fundoSmartphone">
+                <div class="scale-min">
+                    <div class="fundoSmartphone">
 
-                    <div class="cabecalho_info">
-                        <h4 id="titulo_info"></h4>
-                        <img id="info_foto" >
+                        <div class="cabecalho_info">
+                            <h4 id="titulo_info"></h4>
+                            <img id="info_foto" >
+                        </div>
+
+                        <div class="texto_info">
+                            <p id="corpo_info"></p>
+
+                            <div class="links_info" id="links_info"></div>
+                        </div>
+
                     </div>
-
-                    <div class="texto_info">
-                        <p id="corpo_info"></p>
-
-                        <div class="links_info" id="links_info"></div>
-                    </div>
-
                 </div>
                 <!-- FIM TELEFONE RENDER -->
           </div>

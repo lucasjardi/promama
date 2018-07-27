@@ -43,11 +43,19 @@
                                     <td>{{ App\Idade::where('semanas',$info->informacao_idadeSemanasInicio)->pluck('idade')->first() }}</td>
                                     {{--<td>{{ $info->informacao_autor }}</td>--}}
                                     <td>
-                                        <!-- <a href="renderizar/{{ $info->informacao_id }}" class="btn btn-primary btn-sm">Ver</a> -->
-                                        <a href="informacoes/{{ $info->informacao_id }}/editar" class="btn btn-primary btn-sm">Editar</a>
-                                        {!! Form::open(['method' => 'DELETE', 'url' => 'informacoes/'.$info->informacao_id, 'style' => 'display: inline']) !!}
-                                        <button type="submit" class="btn btn-default btn-sm">Remover</button>
+                                        <div class="row">
+                                            <a href="renderizar/{{ $info->informacao_id }}" title="Visualizar" style="text-decoration: none">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="informacoes/{{ $info->informacao_id }}/editar" title="Editar" style="text-decoration: none">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        &nbsp;
+                                        {!! Form::open(['method' => 'DELETE', 'url' => 'informacoes/'.$info->informacao_id,'id' => 'form-delete']) !!}
+                                            <button type="submit" style="border: none; background: none; margin: 0; padding: 0;cursor: pointer;"><i class="fa fa-trash" style="color: #a1a1a1;"></i></button>
                                         {!! Form::close() !!}
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
