@@ -1,4 +1,4 @@
-# Aplicação web Pró-Mamá
+# Painel Gerenciador e API Pró-Mamá
 
 Sistema de gerência do aplicativo [Pró-Mamá](https://github.com/agharium/ProMama), que foi desenvolvido por [José de Oliveira Filho](https://github.com/agharium/).
 
