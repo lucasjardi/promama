@@ -13,10 +13,8 @@
 
 Auth::routes();
 
-Route::get('/termo-de-compromisso',function()
-{
-    return view('termo.termo');
-});
+Route::get('/termo-de-compromisso','TermosController@get');
+
 
 Route::get('/','HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
@@ -59,7 +57,7 @@ Route::prefix('postos')->group(function (){
 // fale conosco
 
 Route::prefix('duvidas')->group(function (){
-    Route::get('', 'DuvidasController@index');
+    Route::get('', 'DuvidasController@index')->name('duvidas');
     Route::get('/respondidas', 'DuvidasController@renderizaRespondidas');
     Route::get('/{duvida}','DuvidasController@read');
     Route::get('/{duvida}/editar','DuvidasController@read');
@@ -90,88 +88,19 @@ Route::prefix('notificacoes')->group(function (){
     Route::delete('/{notificacao}','NotificacoesController@deletar');
 });
 
-Route::get('pika', function ()
+Route::prefix('usuarios')->group(function()
 {
-    $idades = App\Idade::orderBy('semanas')->get();
-
-    // echo "UPDATE idades SET dias = ";
-
-    $controle = 1;
-    $somaDias = 0;
-    $switch = true;
-
-    for ($i=1; $i <= 48 ; $i++) {
-        echo "UPDATE idades SET dias = ";
-
-        if($controle++ == 4){
-            if($switch){
-                $somaDias += (7 + 3);
-                $switch = false;
-
-                echo $somaDias;
-            } else {
-                $somaDias += (7 + 2);
-                $switch = true;
-
-                echo $somaDias;
-            }
-            $controle = 1;
-        } else{
-            $somaDias += 7;
-
-            echo $somaDias;
-        }
-
-        echo " WHERE id = ". $i . "; <br>";
-
-    }
-
-    $somaDias -= 1; // feveireiro 29 dias
-
-    echo "<br> soma dos dias = ".$somaDias;
+    Route::get('', 'UsuariosController@index');
 });
 
-Route::get('pika2', function ()
+Route::prefix('config')->group(function()
 {
-    $idades = App\Idade::orderBy('semanas')->get();
-
-    // echo "UPDATE idades SET dias = ";
-
-    $controle = 1;
-    $somaDias = 379;
-    $switch = true;
-
-    for ($i=49; $i <= 72 ; $i++) {
-        echo "UPDATE idades SET dias = ";
-
-        if($controle++ == 4){
-            if($switch){
-                echo $somaDias;
-                $somaDias += (14 + 3);
-                $switch = false;
-            } else {
-                echo $somaDias;
-                $somaDias += (14 + 2);
-                $switch = true;
-            }
-            $controle = 1;
-        } else{
-            echo $somaDias;
-            $somaDias += 14;
-        }
-
-        echo " WHERE id = ". $i . "; <br>";
-
-    }
-
-    $somaDias -= 1; // feveireiro 29 dias
-
-    echo "<br> soma dos dias = ".$somaDias;
+    Route::get('','ConfigController@showChangePasswordForm')->name('config');
+    Route::post('/changePassword','ConfigController@changePassword')->name('changePassword');
+    // Route::patch('/{id}','ConfigController@update');
 });
 
-Route::get('teste', function ()
-{
-    $duvi = "DUVIDAFREQUENTE:5";
-
-    echo substr($duvi, strpos($duvi, ':') + 1, strlen($duvi));
+Route::prefix('termos')->group(function (){
+    Route::get('', 'TermosController@index');
+    Route::patch('/atualizar','TermosController@atualizar');
 });

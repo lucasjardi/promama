@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Duvida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RespostaDuvida;
 
 class DuvidasController extends Controller
 {
@@ -55,6 +57,8 @@ class DuvidasController extends Controller
         $duvida->resposta = $request->resposta;
         $duvida->paraTodos = $request->paraTodos;
         $duvida->update();
+
+        Mail::to($duvida->usuario->email)->send(new RespostaDuvida($duvida->pergunta, $duvida->resposta));
 
         \Session::flash('mensagem_sucesso', 'Dúvida respondida com sucesso!');
 

@@ -56,7 +56,7 @@
                                         {{ strlen($notificacao->titulo) > 20 ? " ..." : "" }}</td>
                                     <td>{{ substr($notificacao->texto,0,20) }}
                                         {{ strlen($notificacao->texto) > 20 ? " ..." : "" }}</td>
-                                    <td>{{ App\Idade::where('dias',$notificacao->semana)->pluck('idade')->first() }}</td>
+                                    <td>{{ App\Idade::where('semanas',$notificacao->semana)->pluck('idade')->first() }}</td>
                                     <td>
                                         <a href="notificacoes/{{ $notificacao->id }}/editar" class="btn btn-primary btn-sm">Editar</a>
                                         {!! Form::open(['method' => 'DELETE', 'url' => 'notificacoes/'.$notificacao->id, 'style' => 'display: inline']) !!}

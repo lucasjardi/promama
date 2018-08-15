@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\EsqueciASenha;
+use App\Mail\ChegouDuvida;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
@@ -464,14 +465,15 @@ class ApiController extends Controller
         if ( $request->api_token !== $this->default_token ) {
 
             $duvida = new Duvida([
-                'duvida_pergunta' => $request->message
+                'pergunta' => $request->message
             ]);
-            $duvida->duvida_user = $request->user()->id;
+            $duvida->user = $request->user()->id;
 
             if( $duvida->save() ){
+                Mail::to(env('MAIL_USERNAME'))->send(new ChegouDuvida($request->user()->email, $request->message, $duvida->id));
                 return response()->json([
                     'success' => true,
-                    'id' => str_replace(']', '', str_replace('[', '', $duvida->duvida_id) )
+                    'id' => str_replace(']', '', str_replace('[', '', $duvida->id) )
                 ]);
             } else{
                 return response()->json([

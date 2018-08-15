@@ -28,7 +28,7 @@
                             </div>
                         @endif
 
-                        <table class="table" id="myTable">
+                        <table class="table table-hover" id="myTable">
                             <thead>
                             <th>Título</th>
                             <th>Idade</th>
@@ -39,11 +39,16 @@
                             <tbody>
                             @foreach($infos as $info)
                                 <tr>
-                                    <td>{{ $info->informacao_titulo }}</td>
+                                    <td onclick="event.preventDefault();
+                                                     location.href='informacoes/{{ $info->informacao_id }}/editar';"
+                                        style="cursor: pointer;">
+                                        {{ substr($info->informacao_titulo,0,55) }}
+                                        {{ strlen($info->informacao_titulo) > 55 ? " ..." : "" }}
+                                    </td>
                                     <td>{{ App\Idade::where('semanas',$info->informacao_idadeSemanasInicio)->pluck('idade')->first() }}</td>
                                     {{--<td>{{ $info->informacao_autor }}</td>--}}
                                     <td>
-                                        <div class="row">
+                                        <div class="row justify-content-center">
                                             <a href="renderizar/{{ $info->informacao_id }}" title="Visualizar" style="text-decoration: none">
                                             <i class="fa fa-eye"></i>
                                         </a>
@@ -65,7 +70,7 @@
 
                           function ConfirmDelete()
                           {
-                              var x = confirm("Are you sure you want to delete?");
+                              var x = confirm("Tem certeza?");
                               if (x)
                                 return true;
                               else

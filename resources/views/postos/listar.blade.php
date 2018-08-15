@@ -40,15 +40,32 @@
                                     <td>{{ $posto->posto_telefone }}</td>
                                     <td>{{ $posto->bairro->bairro_nome }}</td>
                                     <td>
-                                        <a href="postos/{{ $posto->posto_id }}/editar" class="btn btn-primary btn-sm">Editar</a>
-                                        {!! Form::open(['method' => 'DELETE', 'url' => 'postos/'.$posto->posto_id, 'style' => 'display: inline']) !!}
-                                        <button type="submit" class="btn btn-default btn-sm">Remover</button>
-                                        {!! Form::close() !!}
+                                         <div class="row justify-content-center">
+                                            <a href="postos/{{ $posto->posto_id }}/editar" title="Editar" style="text-decoration: none">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            &nbsp;
+                                            {!! Form::open(['method' => 'DELETE', 'url' => 'postos/'.$posto->posto_id,'id' => 'form-delete']) !!}
+                                                <button onclick="return ConfirmDelete()" style="border: none; background: none; margin: 0; padding: 0;cursor: pointer;"><i class="fa fa-trash" style="color: #a1a1a1;"></i></button>
+                                            {!! Form::close() !!}
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                        <script>
+
+                          function ConfirmDelete()
+                          {
+                              var x = confirm("Tem certeza que quer excluir a informação?");
+                              if (x)
+                                return true;
+                              else
+                                return false;
+                          }
+
+                        </script>
                     </div>
                 </div>
                 {{--<div style="width: 200px; margin: 0 auto; margin-top: 20px;">--}}

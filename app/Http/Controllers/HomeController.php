@@ -27,13 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-       $duvidas = Duvida::with('user')->whereNull('resposta')->get();
+        \Carbon\Carbon::setLocale('pt_BR');
+
+        $duvidas = Duvida::with('usuario')->whereNull('resposta')->get();
 
         $qtd= count($duvidas);
 
+        $dataDaUltimaDuvida = Duvida::orderBy('created_at',false)->pluck('created_at')->first();
+
         $ultimasInfos = Informacao::orderBy('created_at','desc')->take(5)->get();
 
-        return view('home', ['duvidas' => $qtd, 'infos' => $ultimasInfos]);
+        return view('home', ['duvidas' => $qtd, 'infos' => $ultimasInfos, 'ultimaDuvidaData' => $dataDaUltimaDuvida]);
     }
-    
+
 }

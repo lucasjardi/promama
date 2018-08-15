@@ -15,7 +15,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <i class="now-ui-icons arrows-1_refresh-69"></i> Poucos segundos atrás
+                        <!-- <i class="now-ui-icons arrows-1_refresh-69"></i> Poucos segundos atrás -->
+                        <i class="now-ui-icons arrows-1_refresh-69"></i> {{ $ultimaDuvidaData->diffForHumans() }}
                     </div>
                 </div>
             </div>

@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    {{--<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">--}}
-    {{--<link rel="icon" type="image/png" href="../assets/img/favicon.png">--}}
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <!-- CSRF Token -->
@@ -34,11 +34,13 @@
             <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
+            @auth
             <div class="logo">
                 <a href="{{ url('/') }}" class="simple-text logo-normal">
                     <b>Pró-Mamá - Painel</b>
                 </a>
             </div>
+            @endauth
 
             @guest
                 <div class="sidebar-wrapper">
@@ -52,7 +54,7 @@
                     <li class="{{ Request::is('home') || Request::is('/') ? 'active' : '' }}">
                         <a href="{{ url('home') }}">
                             <i class="now-ui-icons design_app"></i>
-                            <p>Dashboard</p>
+                            <p>Início</p>
                         </a>
                     </li>
                     <li class="{{ Request::is('bairros') || Request::is('bairros/*') ? 'active' : '' }}">
@@ -91,6 +93,27 @@
                             <p>Dúvidas Frequentes</p>
                         </a>
                     </li>
+
+                    <li class="{{ Request::is('termos') || Request::is('termos/*') ? 'active' : '' }}">
+                        <a href="{{ url('termos') }}">
+                            <i class="fas fa-sticky-note"></i>
+                            <p>Termos de Uso</p>
+                        </a>
+                    </li>
+
+                    @if(Auth::user()->name === "admin")
+                    <li class="{{ Request::is('usuarios') || Request::is('usuarios/*') ? 'active' : '' }}">
+                        <a href="{{ url('usuarios') }}">
+                            <i class="far fa-user"></i>
+                            <p>Usuários&nbsp;&nbsp;
+                                <span style="font-size: 8px; border: 2px solid white; padding: 2px;letter-spacing: 1px;">
+                                ADMIN
+                            </span>
+                        </p>
+                        </a>
+                    </li>
+                    @endif
+
                 </ul>
             </div>
             @endauth
@@ -98,6 +121,7 @@
         </div>
         <div class="main-panel">
             <!-- Navbar -->
+            @auth
             <nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute bg-primary fixed-top">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
@@ -116,7 +140,7 @@
                         <span class="navbar-toggler-bar navbar-kebab"></span>
                     </button>
 
-                    @auth
+                    
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
                         {{--<form>--}}
                             {{--<div class="input-group no-border">--}}
@@ -132,6 +156,12 @@
                                     <i class="now-ui-icons users_single-02"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+
+                                    <a class="dropdown-item" href="{{ route('config') }}" >
+                                        Alterar senha
+                                    </a>
+
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -147,9 +177,10 @@
 
                     </div>
                 </div>
-                @endauth
+                
 
             </nav>
+            @endauth
             <!-- End Navbar -->
             <div class="panel-header panel-header-sm">
             </div>
