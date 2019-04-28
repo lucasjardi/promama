@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@promama.com',
-            'password' => 'adminpromama',
+            'password' => bcrypt('adminpromama'),
             'api_token' => env('API_SECRET','secret'),
             'senha_reserva' => ''
         ]);
