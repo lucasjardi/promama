@@ -7,3 +7,10 @@ Tecnologias utilizadas:
 - Bootstrap 4.0.0
 - Javascript
 - HTML
+
+
+Instalação:
+- composer install
+- renomear .env.example para .env e configurar ambiente
+- php artisan key:generate
+- php artisan db:seed

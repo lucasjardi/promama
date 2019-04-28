@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateTableMarco extends Migration
 {
     /**
@@ -17,7 +16,7 @@ class CreateTableMarco extends Migration
             $table->increments('id');
             $table->integer('crianca');
             $table->integer('marco')->default(0);
-            $table->date('data')->default('0000-00-00');
+            $table->date('data');
             $table->text('dataPorExtenso');
             $table->text('extra');
             $table->timestamps();

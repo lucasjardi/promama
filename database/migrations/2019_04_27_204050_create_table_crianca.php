@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprinteger;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateTableCrianca extends Migration
@@ -13,9 +13,9 @@ class CreateTableCrianca extends Migration
      */
     public function up()
     {
-        Schema::create('crianca', function (Blueprinteger $table) {
+        Schema::create('crianca', function (Blueprint $table) {
             $table->increments('crianca_id');
-            $table->unsignedintegereger('user_id');
+            $table->unsignedInteger('user_id');
             $table->string('crianca_primeiro_nome');
             $table->string('crianca_sobrenome')->nullable();
             $table->date('crianca_dataNascimento');

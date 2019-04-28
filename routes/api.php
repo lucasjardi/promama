@@ -1,23 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+# RECUPERAR SENHA #
+Route::middleware('auth:api')->post('/recuperar-senha','ApiController@esqueciasenha');
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::middleware('auth:api')->post('/esqueciasenha','ApiController@esqueciasenha');
+# BAIRROS SYNC #
+Route::middleware('auth:api')->get('/bairrosync','ApiController@bairrosync');
 
 # LOGIN #
 Route::middleware('auth:api')->post('/login', 'ApiController@login');
@@ -27,6 +14,10 @@ Route::middleware('auth:api')->post('/user','ApiController@cadastrarUser');
 Route::middleware('auth:api')->get('/user/{userID}', 'ApiController@getUserById');
 Route::middleware('auth:api')->post('/user/{userID}/editar', 'ApiController@editarUser');
 Route::middleware('auth:api')->get('/user/{userID}/remover', 'ApiController@removerUser');
+
+Route::middleware('auth:api')->post('/upload-foto-user','ApiController@uploadUserFoto');
+Route::middleware('auth:api')->get('/read-foto-user', 'FileController@getUserFile');
+
 // Route::middleware('auth:api')->put('/user/{userID}/editar', 'ApiController@editarUser');
 // Route::middleware('auth:api')->delete('/user/{userID}/remover', 'ApiController@removerUser');
 
@@ -34,7 +25,10 @@ Route::middleware('auth:api')->get('/user/{userID}/remover', 'ApiController@remo
 Route::middleware('auth:api')->post('/criancas', 'ApiController@cadastrarCrianca');
 Route::middleware('auth:api')->get('/criancas/{criancaID}', 'ApiController@getCrianca');
 Route::middleware('auth:api')->post('/criancas/{criancaID}/editar', 'ApiController@editarCrianca');
-Route::middleware('auth:api')->get('/criancas/{criancaID}/remover', 'ApiController@removerCrianca');
+Route::middleware('auth:api')->delete('/criancas/{criancaID}/remover', 'ApiController@removerCrianca');
+
+Route::middleware('auth:api')->get('/criancas-user', 'ApiController@getCriancasDoUser');
+
 // Route::middleware('auth:api')->put('/criancas/{criancaID}/editar', 'ApiController@editarCrianca');
 // Route::middleware('auth:api')->delete('/criancas/{criancaID}/remover', 'ApiController@removerCrianca');
 
@@ -58,21 +52,28 @@ Route::middleware('auth:api')->get('/sync','ApiController@getSincronizacaoTable'
 Route::middleware('auth:api')->get('/notificacoes','ApiController@getNotificacoes');
 
 # MARCO #
+Route::middleware('auth:api')->post('/marcos','ApiController@inserirMarco');
+Route::middleware('auth:api')->get('/marcos/{crianca}','ApiController@getMarcosByCrianca');
+// rota abaixo feita em 03 07 2018
 Route::middleware('auth:api')->get('/marcos','ApiController@getMarcosByUserId');
-Route::middleware('auth:api')->post('/marcos/{marcoID}/editar','ApiController@editarMarco');
 
 # ACOMPANHAMENTO #
 Route::middleware('auth:api')->post('/acompanhamentos','ApiController@cadastrarAcompanhamento');
 Route::middleware('auth:api')->get('/acompanhamentos','ApiController@getAcompanhamentosByUserId');
 
 # foto #
-Route::middleware('auth:api')->get('file/{filename}', 'FileController@getFile')->where('filename', '^[^/]+$');
-Route::middleware('auth:api')->post('uploadfoto', 'ApiController@uploadFoto');
+Route::middleware('auth:api')->get('/read-foto-crianca/{filename}', 'FileController@getFile');
+Route::middleware('auth:api')->post('/upload-foto-crianca', 'ApiController@uploadFoto');
 Route::middleware('auth:api')->get('/fotos','ApiController@getFotosDaCriancaByUserId');
 Route::middleware('auth:api')->post('/fotos','ApiController@inserirFoto');
-Route::middleware('auth:api')->post('/fotos/{fotoID}/editar','ApiController@updateFoto');
+Route::middleware('auth:api')->delete('/fotos/{fotoID}/remover','ApiController@apagarFoto');//nao vai usar
 
-# inserir duvidas #
-Route::middleware('auth:api')->post('/duvidas', 'ApiController@inserirDuvida');
-Route::middleware('auth:api')->get('/duvidas-do-user', 'ApiController@getDuvidasDoUser');
-Route::middleware('auth:api')->get('/duvidas-todos', 'ApiController@getDuvidasParaTodos');
+# duvidas #
+Route::middleware('auth:api')->post('/conversa', 'ApiController@inserirDuvida');
+Route::middleware('auth:api')->get('/conversa-user', 'ApiController@getDuvidasDoUser');
+Route::middleware('auth:api')->get('/conversa-todos', 'ApiController@getDuvidasParaTodos');
+
+Route::middleware('auth:api')->get('/conversa-user-todos', 'ApiController@getDuvidasDoUserEParaTodos');
+
+# duvidas frequentes #
+Route::middleware('auth:api')->get('/duvidas-frequentes', 'ApiController@getDuvidasFrequentes');
